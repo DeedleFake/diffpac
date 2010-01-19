@@ -6,6 +6,7 @@
 # Ce programme permet de rechercher les fichiers pacsave et pacnew, de supprimer les fichiers inutiles et d'éditer les différences entre les fichiers.
 
 TMPDIR="/tmp/diffpac-$UID"
+mkdir -p "$TMPDIR"
 
 type gettext.sh > /dev/null 2>&1 && { . gettext.sh; } || eval_gettext () { echo "$1"; }
 if [ `type -p colordiff` ]; then
