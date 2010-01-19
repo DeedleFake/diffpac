@@ -470,12 +470,6 @@ fi
 
 # Functions taken from basicfunctions.sh from yaourt
 # set misc path
-initpath(){
-	LOCKFILE="/var/lib/pacman/db.lck"
-	PACMANROOT=`LC_ALL=C pacman --verbose | grep 'DB Path' | awk '{print $4}'| sed "s/\/$//"`
-	#mkdir -p "$YAOURTTMPDIR"
-}
-
 # Load library but never reload twice the same lib
 loadlibrary(){
 	eval alreadyload=\$$1
@@ -763,19 +757,12 @@ fi
 
 loadlibrary color
 readconfigfile `grep "^[\ ]*[a-zA-Z]" $configfile`
-#initcolor
-initpath
+initcolor
 ########################################################################
 ###              MAIN PROGRAM                                        ###
 ########################################################################
 savedir=/var/lib/pacdiffviewer/backupfiles
-
-# Basic init and libs in common with yaourt
-
-initcolor
 tmp_files="$TMPDIR/pacdiffviewer.$$"
-
-
 
 case $1 in
   -h|--help) SHOWHELP;;
