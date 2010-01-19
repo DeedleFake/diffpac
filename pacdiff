@@ -196,7 +196,7 @@ initcolor
 
 dbg(){
 	! [ $DEBUG ] && return
-	echo -e "$*" >> $TMPDIR/pacdiffviewer.log
+	echo -e "$*" >> $TMPDIR/pacdiff.log
 }
 
 merge_files(){
@@ -551,13 +551,14 @@ esac
 SHOWHELP()
 ##########################################################
 {
-echo "pacdiffviewer $program_version"
+echo "pacdiff $program_version"
+echo "forked by Matthew Bruenig <matthewbruenig@gmail.com>"
 echo "ecrit par wain <wain@archlinux.fr>"
 echo ""
 echo $(eval_gettext 'usage:')
-echo "         pacdiffviewer -c, clean:    $(eval_gettext 'Delete all pacsave, pacnew found')"
-echo "         pacdiffviewer -h, help:     $(eval_gettext 'Show this help')"
-echo "         pacdiffviewer -v, version:  $(eval_gettext 'Show version number')"
+echo "         pacdiff -c, clean:    $(eval_gettext 'Delete all pacsave, pacnew found')"
+echo "         pacdiff -h, help:     $(eval_gettext 'Show this help')"
+echo "         pacdiff -v, version:  $(eval_gettext 'Show version number')"
 echo ""
 echo "--------------------------------------------------------"
 
@@ -581,7 +582,7 @@ exit 0
 SHOWVERSION()
 ##########################################################
 {
-echo "pacdiffviewer $program_version"
+echo "pacdiff $program_version"
 echo "$(eval_gettext 'Author:') Julien MISCHKOWITZ <wain@archlinux.fr>"
 exit 0
 }
@@ -638,7 +639,7 @@ if [ "$UID" -ne "0" ]; then
 	echo $(eval_gettext '   # <root password>')
 	echo
 	echo $(eval_gettext 'Or add this line to sudoers:')
-	echo "`id -un` ALL=NOPASSWD: /usr/bin/pacdiffviewer"
+	echo "`id -un` ALL=NOPASSWD: /usr/bin/pacdiff"
 	exit
 fi
 }
@@ -646,8 +647,8 @@ fi
 ########################################################################
 ###              MAIN PROGRAM                                        ###
 ########################################################################
-savedir=/var/lib/pacdiffviewer/backupfiles
-tmp_files="$TMPDIR/pacdiffviewer.$$"
+savedir=/var/lib/pacdiff/backupfiles
+tmp_files="$TMPDIR/pacdiff.$$"
 
 case $1 in
   -h|--help) SHOWHELP;;
