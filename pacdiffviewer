@@ -1,8 +1,14 @@
 #!/bin/bash
+# Copyright Matthew Bruenig <matthewbruenig@gmail.com>
+# Licensed under GPL3
+# Original developer info below
 # Julien MISCHKOWITZ <wain@archlinux.fr>
 # Ce programme permet de rechercher les fichiers pacsave et pacnew, de supprimer les fichiers inutiles et d'éditer les différences entre les fichiers.
+
 export TEXTDOMAINDIR=/usr/share/locale
 export TEXTDOMAIN=yaourt
+TMPDIR="$(mktemp -d)"
+
 type gettext.sh > /dev/null 2>&1 && { . gettext.sh; } || eval_gettext () { echo "$1"; }
 if [ `type -p colordiff` ]; then
        	showdiff="colordiff"
@@ -15,7 +21,7 @@ program_version=0.3.6
 DEBUG=1
 dbg(){
 	! [ $DEBUG ] && return
-	echo -e "$*" >> $YAOURTTMPDIR/pacdiffviewer.log
+	echo -e "$*" >> $TMPDIR/pacdiffviewer.log
 }
 
 merge_files(){
@@ -40,7 +46,7 @@ merge_files(){
 		fi
 	else
 		warning "$(eval_gettext 'This patch can not be applied automatically')"
-		patchsaved="$YAOURTTMPDIR/`basename $systemfile`.diff"
+		patchsaved="$TMPDIR/`basename $systemfile`.diff"
 		diff $DIFFOPTS $savedir/$pkgname/$originalversionprevious$systemfile \
 	$savedir/$pkgname/$originalversioncurrent$systemfile > $patchsaved
 		msg "$(eval_gettext 'Saving patch in $patchsaved')"
@@ -471,7 +477,7 @@ savedir=/var/lib/yaourt/backupfiles
 # Basic init and libs in common with yaourt
 source /usr/lib/yaourt/basicfunctions.sh || exit 1 
 initcolor
-tmp_files="$YAOURTTMPDIR/pacdiffviewer.$$"
+tmp_files="$TMPDIR/pacdiffviewer.$$"
 
 
 
