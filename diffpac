@@ -150,7 +150,7 @@ userinput()
 	echo $REPLY | tr '[[:lower:]]' '[[:upper:]]'  | tr "$(eval_gettext $_key)" "$_key"
 }
 
-yes_no ()
+yes_no()
 {
 	case $1 in
 	  1) 
@@ -671,10 +671,10 @@ fi
 sleep 1
 
 # Mode suppression automatique et sortie
-if [ "$1" = "-c" ]; then SUPPRESSAUTO; fi
+if [ "$1" = "-c" ]; then SUPPRESSAUTO; CREATE_DB; fi
 
 # Suppression des fichiers orphelins si nécessaires 
-if [ -f "$tmp_files/pacfile.obsolete" ]; then SUPPRESS_ORPHANS; fi
+if [ -f "$tmp_files/pacfile.obsolete" ]; then SUPPRESS_ORPHANS; CREATE_DB; fi
 
 # Recherche des différences sur les pacsave
 if [[ "$pacsave_num" -gt "0" ]]
