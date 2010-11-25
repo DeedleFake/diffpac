@@ -432,7 +432,7 @@ for i in `seq 1 $num`; do
 	file[$i]=$(echo ${fichier[$i]} | cut -d " " -f 5)
 	show_file_line="$i. ${fichier[$i]}[.$extension]"
 	#previous_version_for_merge[$i]=`mergeable_with ${file[$i]}`
-	if diff $DIFFOPTS ${file[$i]} ${file[$i]}.$extension > /dev/null; then
+	if diff $DIFFOPTS ${file[$i]} ${file[$i]}.$extension > /dev/null 2>&1; then
 		show_file_line="$show_file_line $(eval_gettext '**same files**')"
 	elif [ "$extension" = "pacnew" ] && `is_mergeable ${file[$i]}`; then
 		#if [ ! -w ${file[$i]} ]; then show_file_line=$(echo $show_file_line" (readonly)"); fi
