@@ -421,8 +421,10 @@ VIEW_DIFF_LIST()
 num=0
 while read line; do
 	num=$(($num+1))
+	if [ ! -f "$(echo $line | cut -d' ' -f5).$extension" ]; then num=$((num-1)); continue; fi
 	fichier[$num]=$line
 done < $tmp_files/$extension
+if [ "$num" -eq "0" ]; then return 1; fi
 
 echo $(eval_gettext 'File to merge             Current Version      Previous Version') > $tmp_files/meargeable_files
 
@@ -671,10 +673,10 @@ fi
 sleep 1
 
 # Mode suppression automatique et sortie
-if [ "$1" = "-c" ]; then SUPPRESSAUTO; CREATE_DB; fi
+if [ "$1" = "-c" ]; then SUPPRESSAUTO; fi
 
 # Suppression des fichiers orphelins si nécessaires 
-if [ -f "$tmp_files/pacfile.obsolete" ]; then SUPPRESS_ORPHANS; CREATE_DB; fi
+if [ -f "$tmp_files/pacfile.obsolete" ]; then SUPPRESS_ORPHANS; fi
 
 # Recherche des différences sur les pacsave
 if [[ "$pacsave_num" -gt "0" ]]
@@ -691,6 +693,7 @@ then
 		plain $(eval_gettext 'Maybe you have changed these files, but they have been')
 		plain $(eval_gettext 'replaced during packages update:')
 		VIEW_DIFF_LIST
+		if [ "$?" -eq "1" ]; then clear; break; fi
 		msg $(eval_gettext 'Enter the number of the file to be modified or press ENTER to cancel')
 		msg "----------------------------------------------"
 		promptlight
@@ -715,6 +718,7 @@ then
 		plain $(eval_gettext 'New version of these files are available')
 		plain $(eval_gettext 'These .pacnew files may contain enhancements')
 		VIEW_DIFF_LIST
+		if [ "$?" -eq "1" ]; then clear; break; fi
 		msg $(eval_gettext 'Enter the number of the file to be modified or press ENTER to cancel')
 		msg "----------------------------------------------"
 		promptlight
